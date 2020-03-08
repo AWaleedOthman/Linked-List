@@ -5,55 +5,47 @@ import eg.edu.alexu.csd.datastructure.linkedList.Interfaces.ILinkedList;
 public class SLinkedList implements ILinkedList {
 
     private Node start;
-    private Node end;
     private int size = 0;
 
+    /*
+    Dummy Start Node
+     */
     public SLinkedList() {
-        /*
-        Dummy Start Node
-         */
         start = new Node();
-        start.content = null;
-        end = start;
     }
 
-    private class Node {
+    private static class Node {
         private Object content;
         private Node next;
+    }
 
-        public Object getContent() {
-            return content;
+    private Node getNode(int index) {
+        Node current = start;
+        for (int i = -1; i < index; i++) {
+            current = current.next;
         }
-
-        public void setContent(Object content) {
-            this.content = content;
-        }
-
-        public Node getNext() {
-            return next;
-        }
-
-        public void setNext(Node next) {
-            this.next = next;
-        }
+        return current;
     }
 
     @Override
     public void add(int index, Object element) {
-
-    }
-
-    @Override
-    public void add(Object element) {
-        end.next = new Node();
-        end = end.next;
-        end.content = element;
+        if (index > size+1 || index < 0) throw new ArrayIndexOutOfBoundsException();
+        Node prev = getNode(index-1);
+        Node newNode = new Node();
+        newNode.content = element;
+        newNode.next = prev.next;
+        prev.next = newNode;
         size++;
     }
 
     @Override
+    public void add(Object element) {
+        add(size, element);
+    }
+
+    @Override
     public Object get(int index) throws ArrayIndexOutOfBoundsException {
-        if (index > size -1 || index < 0) throw new ArrayIndexOutOfBoundsException();   //Out of boundary
+        if (index > size -1 || index < 0) throw new ArrayIndexOutOfBoundsException();
         Node current = start.next;
         for (int i = 0; i < index; i++) {
             current = current.next;
@@ -63,7 +55,9 @@ public class SLinkedList implements ILinkedList {
 
     @Override
     public void set(int index, Object element) {
-
+        if (index > size -1 || index < 0) throw new ArrayIndexOutOfBoundsException();
+        Node myNode = getNode(index);
+        myNode.content = element;
     }
 
     @Override
@@ -74,13 +68,14 @@ public class SLinkedList implements ILinkedList {
 
     @Override
     public boolean isEmpty() {
-        if (size == 0) return true;
-        return false;
+        return size == 0;
     }
 
     @Override
     public void remove(int index) {
-
+        Node prev = getNode(index -1);
+        prev.next = prev.next.next;
+        size--;
     }
 
     @Override
@@ -88,11 +83,19 @@ public class SLinkedList implements ILinkedList {
         return size;
     }
 
+    /**
+     * TODO
+     *
+     */
     @Override
     public ILinkedList sublist(int fromIndex, int toIndex) {
         return null;
     }
 
+    /**
+     * TODO
+     *
+     */
     @Override
     public boolean contains(Object o) {
         return false;
