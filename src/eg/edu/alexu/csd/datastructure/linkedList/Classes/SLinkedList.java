@@ -86,10 +86,6 @@ public class SLinkedList <T> implements ILinkedList {
         return size;
     }
 
-    /**
-     * TODO
-     *
-     */
     @Override
     public ILinkedList sublist(int fromIndex, int toIndex) {
         if (fromIndex < 0 || toIndex > size -1 || fromIndex > toIndex) throw new ArrayIndexOutOfBoundsException();
