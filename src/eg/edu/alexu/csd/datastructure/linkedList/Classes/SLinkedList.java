@@ -2,7 +2,7 @@ package eg.edu.alexu.csd.datastructure.linkedList.Classes;
 
 import eg.edu.alexu.csd.datastructure.linkedList.Interfaces.ILinkedList;
 
-public class SLinkedList implements ILinkedList {
+public class SLinkedList <T> implements ILinkedList {
 
     private Node start;
     private int size = 0;
@@ -14,8 +14,8 @@ public class SLinkedList implements ILinkedList {
         start = new Node();
     }
 
-    private static class Node {
-        private Object content;
+    private class Node {
+        private T content;
         private Node next;
     }
 
@@ -28,11 +28,13 @@ public class SLinkedList implements ILinkedList {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void add(int index, Object element) {
         if (index > size+1 || index < 0) throw new ArrayIndexOutOfBoundsException();
+
         Node prev = getNode(index-1);
         Node newNode = new Node();
-        newNode.content = element;
+        newNode.content = (T)element;
         newNode.next = prev.next;
         prev.next = newNode;
         size++;
@@ -44,7 +46,7 @@ public class SLinkedList implements ILinkedList {
     }
 
     @Override
-    public Object get(int index) throws ArrayIndexOutOfBoundsException {
+    public T get(int index) throws ArrayIndexOutOfBoundsException {
         if (index > size -1 || index < 0) throw new ArrayIndexOutOfBoundsException();
         Node current = start.next;
         for (int i = 0; i < index; i++) {
@@ -54,10 +56,11 @@ public class SLinkedList implements ILinkedList {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void set(int index, Object element) {
         if (index > size -1 || index < 0) throw new ArrayIndexOutOfBoundsException();
         Node myNode = getNode(index);
-        myNode.content = element;
+        myNode.content = (T)element;
     }
 
     @Override
@@ -89,15 +92,21 @@ public class SLinkedList implements ILinkedList {
      */
     @Override
     public ILinkedList sublist(int fromIndex, int toIndex) {
-        return null;
+        if (fromIndex < 0 || toIndex > size -1 || fromIndex > toIndex) throw new ArrayIndexOutOfBoundsException();
+        SLinkedList<T> newList = new SLinkedList<>();
+        for (int i = fromIndex; i <= toIndex; i++) {
+            newList.add(get(i));
+        }
+        return newList;
     }
 
-    /**
-     * TODO
-     *
-     */
     @Override
     public boolean contains(Object o) {
+        Node current = start.next;
+        for (int i = 0; i < size; i++) {
+            if (current.content.equals(o)) return true;
+            current = current.next;
+        }
         return false;
     }
 }
