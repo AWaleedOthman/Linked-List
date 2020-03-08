@@ -13,23 +13,13 @@ public class SLinkedList implements ILinkedList {
         Dummy Start Node
          */
         start = new Node();
-        start.prev = null;
         start.content = null;
         end = start;
     }
 
     private class Node {
-        private Node prev;
         private Object content;
         private Node next;
-
-        public Node getPrev() {
-            return prev;
-        }
-
-        public void setPrev(Node prev) {
-            this.prev = prev;
-        }
 
         public Object getContent() {
             return content;

@@ -9,8 +9,10 @@ class SLinkedListTest {
     @org.junit.jupiter.api.Test
     void add() {
         SLinkedList ll = new SLinkedList();
-        ll.add("first element index zero");
-        ll.add("second element index one");
+        String s = null;
+        Integer i = new Integer(6);
+        ll.add(s);
+        ll.add(i);
         System.out.println(ll.get(0));
         System.out.println(ll.get(1));
         System.out.println(ll.isEmpty());
