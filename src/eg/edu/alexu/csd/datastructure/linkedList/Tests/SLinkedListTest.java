@@ -18,6 +18,7 @@ class SLinkedListTest {
         ll.set(2, "test set");
         assertEquals(ll.get(2), "test set");
         assertEquals(ll.size(), 4);
+        assertThrows(ArrayIndexOutOfBoundsException.class, ()->ll.get(4));
         ll.remove(1);
         assertEquals(ll.get(2), "second");
         assertEquals(ll.size(), 3);
