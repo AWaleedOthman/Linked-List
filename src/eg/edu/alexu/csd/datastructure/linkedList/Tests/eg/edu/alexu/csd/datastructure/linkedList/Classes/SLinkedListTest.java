@@ -43,4 +43,21 @@ class SLinkedListTest {
         assertThrows(ArrayIndexOutOfBoundsException.class, ()-> ll.sublist(0, 20));
     }
 
+    @Test
+    void getNext() {
+        SLinkedList<Integer> ll = new SLinkedList<>();
+        for (int i = 0; i < 5; i++) {
+            ll.add(i);
+        }
+        assertTrue(ll.hasNext());
+        assertEquals(ll.getNext(), 0);
+        assertTrue(ll.hasNext());
+        assertEquals(ll.getNext(), 1);
+        assertEquals(ll.get(3), 3);
+        assertTrue(ll.hasNext());
+        assertEquals(ll.getNext(), 4);
+        assertFalse(ll.hasNext());
+        assertThrows(ArrayIndexOutOfBoundsException.class, ()->ll.getNext());
+    }
+
 }

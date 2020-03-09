@@ -47,7 +47,7 @@ public class PolynomialSolver implements IPolynomialSolver {
         return i;
     }
 
-    private void sort(int[][] terms) {
+    private void sort(int[][] terms) { //bubble sort
         int n = terms[0].length;
         int i, j, temp;
         boolean swapped;
@@ -73,9 +73,8 @@ public class PolynomialSolver implements IPolynomialSolver {
     @Override
     public void setPolynomial(char poly, int[][] terms) {
         sort(terms);
-        int i = getIndex(poly);
-        for (int j = 0; j < terms[0].length; j++) {
-            polynomials.get(i).add(new Term(terms[0][j], terms[1][j]));
+        for (int i = 0; i < terms[0].length; i++) {
+            polynomials.get(getIndex(poly)).add(new Term(terms[0][i], terms[1][i]));
         }
     }
 
@@ -85,30 +84,34 @@ public class PolynomialSolver implements IPolynomialSolver {
         if (tempPoly.size() == 0) return null;
         Term tempTerm = tempPoly.get(0);
         Integer tempCo = tempTerm.coefficient; //because it is used A LOT
+        String sExponent = tempTerm.exponent == 0? "" : (tempTerm.exponent == 1? "x " :
+                ("x^(" + tempTerm.exponent + ") "));
         StringBuilder expression;
-        if (tempCo > 0) {
-            expression = new StringBuilder((tempCo == 1 ? "" : tempCo) + "x^(" + tempTerm.exponent + ") ");
-        } else if (tempCo < 0) {
-            expression = new StringBuilder((tempCo == -1 ? "-" : tempCo) + "x^(" + tempCo + ") ");
-        } else {
+        if (tempCo > 0) { //+ve coefficient
+            expression = new StringBuilder((tempCo == 1 ? "" : tempCo) + sExponent);
+        } else if (tempCo < 0) { //-ve coefficient
+            expression = new StringBuilder((tempCo == -1 ? "-" : tempCo) + sExponent);
+        } else { //coefficient = zero
             expression = new StringBuilder();
         }
-        for (int i = 1; i < tempPoly.size(); i++) {
-            tempTerm = tempPoly.get(i);
-            tempCo = tempTerm.coefficient;
 
-            /*
-            for sign
-             */
+        for (int i = 1; i < tempPoly.size(); i++) {
+
+            tempTerm = tempPoly.getNext();
+            tempCo = tempTerm.coefficient;
+            sExponent = tempTerm.exponent == 0? "" : (tempTerm.exponent == 1? "x " :
+                    ("x^(" + tempTerm.exponent + ") "));
+
             if (tempCo > 0) { //+ve coefficient
                 expression.append("+ ");
-                expression.append(tempCo == 1 ? "" : tempCo).append("x^(").append(tempTerm.exponent).append(") ");
+                expression.append(sExponent.equals("")? tempCo:(tempCo == 1 ? "" : tempCo)).append(sExponent);
 
             } else if (tempCo < 0) { //-ve coefficient
                 expression.append("- ");
-                expression.append(tempCo == -1 ? "" : -1 * tempCo).append("x^(").append(tempTerm.exponent).append(") ");
+                expression.append(sExponent.equals("")? -1*tempCo:(tempCo == -1 ? "" : -1 * tempCo)).append(sExponent);
 
             }
+            //zero coefficient : continue;
         }
 
         return expression.toString();
@@ -121,7 +124,15 @@ public class PolynomialSolver implements IPolynomialSolver {
 
     @Override
     public float evaluatePolynomial(char poly, float value) {
-        return 0;
+        SLinkedList<Term> tempPoly = polynomials.get(getIndex(poly));
+        Term tempTerm;
+        float result = 0;
+        tempPoly.resetNext();
+        while (tempPoly.hasNext()) {
+            tempTerm = tempPoly.getNext();
+            result += tempTerm.coefficient * Math.pow(value, tempTerm.exponent);
+        }
+        return result;
     }
 
     @Override

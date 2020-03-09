@@ -6,12 +6,15 @@ public class SLinkedList <T> implements ILinkedList {
 
     private Node start;
     private int size = 0;
+    private Node current; //used in getNext() and hasNext()
 
     /*
     Dummy Start Node
      */
     public SLinkedList() {
         start = new Node();
+        start.next = start; //circular
+        current = start; //used in getNext() and hasNext()
     }
 
     private class Node {
@@ -52,6 +55,7 @@ public class SLinkedList <T> implements ILinkedList {
         for (int i = 0; i < index; i++) {
             current = current.next;
         }
+        this.current = current;
         return current.content;
     }
 
@@ -104,5 +108,19 @@ public class SLinkedList <T> implements ILinkedList {
             current = current.next;
         }
         return false;
+    }
+
+    public boolean hasNext() {
+        return !(current.next == start);
+    }
+
+    public T getNext() {
+        if (!this.hasNext()) throw new ArrayIndexOutOfBoundsException();
+        current = current.next;
+        return current.content;
+    }
+
+    public void resetNext() {
+        current = start;
     }
 }
