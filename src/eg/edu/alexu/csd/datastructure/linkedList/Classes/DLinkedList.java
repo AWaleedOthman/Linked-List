@@ -9,6 +9,7 @@ public class DLinkedList<T> implements ILinkedList {
 	private int size = 0;
 	private Node head;
 	private Node tail;
+	final Class<T> typeParameterClass;
 	
 	private class Node{
 		T data;
@@ -22,7 +23,7 @@ public class DLinkedList<T> implements ILinkedList {
 		}
 	}
 	
-	public DLinkedList() { //initialise DLL with dummy nodes
+	public DLinkedList(Class<T> typeParameterClass) { //initialise DLL with dummy nodes
 		head = new Node();
 		head.prev = null;
 		head.data = null;
@@ -30,18 +31,18 @@ public class DLinkedList<T> implements ILinkedList {
 		tail.prev = head;
 		tail.next = null;
 		tail.data = null;
-		head.next = tail;		
+		head.next = tail;
+		this.typeParameterClass = typeParameterClass;
 	}
 	
 	@Override
-	@SuppressWarnings("unchecked")
 	public void add(int index, Object element){
 		if(index < 0 || index > size) { //if index == size, it's fine because I'll be adding a new node
 			throw new ArrayIndexOutOfBoundsException();
 		}
 		Node newNode = new Node();
 		try {
-			newNode.data = (T) element;
+			newNode.data = typeParameterClass.cast(element);
 		}catch (ClassCastException e) {
 			throw new IllegalArgumentException("Changed the type of DLL after declaration");
 		}
@@ -71,14 +72,19 @@ public class DLinkedList<T> implements ILinkedList {
 	
 	
 	@Override
-	@SuppressWarnings("unchecked")
 	public void add(Object element) {
 		Node newNode = new Node();
-		try {
+		if(typeParameterClass.isInstance(element)) {
+			newNode.data = typeParameterClass.cast(element);
+		}
+		else {
+			throw new IllegalArgumentException("Changed the type of DLL after declaration");
+		}
+		/*try { DOESNT WORK BECAUSE OF TYPE ERASURE
 			newNode.data = (T) element;
 		}catch(ClassCastException e) {
 			throw new IllegalArgumentException("Changed the type of DLL after declaration");
-		}
+		}*/
 		newNode.next = tail;
 		newNode.prev = tail.prev;
 		tail.prev = newNode;
@@ -111,7 +117,6 @@ public class DLinkedList<T> implements ILinkedList {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public void set(int index, Object element) {
 		validateIndex(index);
 		int currentIndex;
@@ -133,9 +138,9 @@ public class DLinkedList<T> implements ILinkedList {
 			}
 		}
 		try {
-			currentNode.data = (T)element;
+			currentNode.data = typeParameterClass.cast(element);
 		}catch(ClassCastException e) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Changed the type of DLL after declaration");
 		}
 	}
 
@@ -143,7 +148,7 @@ public class DLinkedList<T> implements ILinkedList {
 	public void clear() {
 		head.next = tail;
 		tail.prev = head;
-		
+		size = 0;
 	}
 
 	@Override
@@ -153,9 +158,7 @@ public class DLinkedList<T> implements ILinkedList {
 
 	@Override
 	public void remove(int index) {
-		if(index < 0 || index >= size) {
-			throw new ArrayIndexOutOfBoundsException("Trying to delete an index that doesn't exist");
-		}
+		validateIndex(index);
 		int currentIndex;
 		Node currentNode;
 		if(index > size/2) {
@@ -169,7 +172,7 @@ public class DLinkedList<T> implements ILinkedList {
 			currentNode = head.next;
 			currentIndex = 0;
 			while(index > currentIndex) {
-				currentIndex--;
+				currentIndex++;
 				currentNode = currentNode.next;
 			}
 		}
@@ -184,13 +187,13 @@ public class DLinkedList<T> implements ILinkedList {
 	}
 
 	@Override
-	public ILinkedList sublist(int fromIndex, int toIndex) {
+	public DLinkedList<T> sublist(int fromIndex, int toIndex) {
 		validateIndex(fromIndex);
 		validateIndex(toIndex);
 		if(fromIndex > toIndex) {
 			throw new IllegalArgumentException("fromIndex is larger than toIndex");
 		}
-		DLinkedList<T> newList = new DLinkedList<T>();
+		DLinkedList<T> newList = new DLinkedList<T>(typeParameterClass);
 		int currentIndex = 0;
 		Node currentNode = head.next;
 		while(currentIndex <= toIndex) {//creating a "deep" copy of each node
