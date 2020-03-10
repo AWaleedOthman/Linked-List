@@ -1,10 +1,10 @@
 package eg.edu.alexu.csd.datastructure.linkedList.Classes;
+import java.util.Iterator;
+
 import eg.edu.alexu.csd.datastructure.linkedList.Interfaces.ILinkedList;
 
-//implement iterable/iterator
-//
 
-public class DLinkedList<T> implements ILinkedList {
+public class DLinkedList<T> implements ILinkedList, Iterable<T> { //a DLL is an iterable for which iterators could be used, it's not an iterator itself
 
 	private int size = 0;
 	private Node head;
@@ -15,6 +15,35 @@ public class DLinkedList<T> implements ILinkedList {
 		T data;
 		Node prev;
 		Node next;
+	}
+	
+	private class Itr implements Iterator<T>{
+		
+		private Node currentNode;
+		Itr(String arg){
+			switch(arg) {
+			case "up":
+				currentNode = head.next;
+				break;
+			case "down":
+				currentNode = tail.prev;
+				break;
+			default:
+				throw new IllegalArgumentException();
+			}
+		}
+		@Override
+		public boolean hasNext() {
+			return currentNode != tail;
+		}
+
+		@Override
+		public T next() {
+			T data = currentNode.data;
+			currentNode = currentNode.next;
+			return data;
+		}
+		
 	}
 	
 	private void validateIndex(int index) {
@@ -69,7 +98,6 @@ public class DLinkedList<T> implements ILinkedList {
 		newNode.prev.next = newNode;
 		size++;
 	}
-	
 	
 	@Override
 	public void add(Object element) {
@@ -190,21 +218,34 @@ public class DLinkedList<T> implements ILinkedList {
 	public DLinkedList<T> sublist(int fromIndex, int toIndex) {
 		validateIndex(fromIndex);
 		validateIndex(toIndex);
-		if(fromIndex > toIndex) {
-			throw new IllegalArgumentException("fromIndex is larger than toIndex");
-		}
 		DLinkedList<T> newList = new DLinkedList<T>(typeParameterClass);
-		int currentIndex = 0;
-		Node currentNode = head.next;
-		while(currentIndex <= toIndex) {//creating a "deep" copy of each node
-			if(currentIndex < fromIndex) {
+		int currentIndex;
+		Node currentNode;
+		if(fromIndex <= toIndex) {
+			currentIndex=0;
+			currentNode = head.next;
+			while(currentIndex<fromIndex) { //find the starting point
 				currentNode = currentNode.next;
 				currentIndex++;
-				continue;
 			}
-			newList.add(currentNode.data);
-			currentNode = currentNode.next;
-			currentIndex++;
+			while(currentIndex <= toIndex) {//creating a "deep" copy of each node
+				newList.add(currentNode.data);
+				currentNode = currentNode.next;
+				currentIndex++;
+			}
+		}
+		else {
+			currentIndex=size-1;
+			currentNode = tail.prev;
+			while(currentIndex > fromIndex) {
+				currentNode = currentNode.prev;
+				currentIndex--;
+			}
+			while(currentIndex >= toIndex) {//creating a "deep" copy of each node
+				newList.add(currentNode.data);				
+				currentNode = currentNode.prev;
+				currentIndex--;
+			}
 		}
 		return newList;
 	}
@@ -218,5 +259,15 @@ public class DLinkedList<T> implements ILinkedList {
 		}
 		return false;
 	}
+
+	public Iterator<T> iterator(String arg) {//iterator for custom use, whether up or down
+		return new Itr(arg);
+	}
+	
+	@Override
+	public Iterator<T> iterator(){ //iterator for for-each loop
+		return new Itr("up");
+	}
+
 	
 }

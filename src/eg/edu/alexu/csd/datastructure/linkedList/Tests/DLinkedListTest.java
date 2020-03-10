@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DLinkedListTest {
 	
 	DLinkedList<Integer> myDLL = new DLinkedList<Integer>(Integer.class);
-	
+
     @Test
     void add() {
         DLinkedList<String> ll = new DLinkedList<String>(String.class);
@@ -37,15 +37,20 @@ class DLinkedListTest {
     }
     @Test
     void subList() {
-        DLinkedList<Integer> ll = new DLinkedList<>(Integer.class);
+    	myDLL.clear();
+        DLinkedList<Integer> testLL = new DLinkedList<>(Integer.class);
         for (int i = 0; i < 10; i++) {
-            ll.add(i);
+            myDLL.add(i);
         }
-        DLinkedList<Integer> testLL =  ll.sublist(3, 7);
-        assertEquals(testLL.size(), 5);
-        assertEquals(testLL.get(0), 3);
-        assertThrows(ArrayIndexOutOfBoundsException.class, ()-> ll.sublist(0, 20));
-        assertThrows(IllegalArgumentException.class, () -> ll.sublist(2,0));
+        for(int i = 3; i < 8; i++) {
+        	testLL.add(i);
+        }
+        assertIterableEquals(testLL, myDLL.sublist(3, 7));
+        assertThrows(ArrayIndexOutOfBoundsException.class, ()-> myDLL.sublist(0, 20));
+        for(int i = 3; i < 8; i++) {
+        	testLL.set(i-3, 10-i);
+        }
+        assertIterableEquals(testLL, myDLL.sublist(7, 3));
     }
     
     @Test
@@ -62,5 +67,14 @@ class DLinkedListTest {
     	myDLL = new DLinkedList<Integer>(Integer.class);
     	myDLL.add(3);
     	assertThrows(IllegalArgumentException.class, ()-> myDLL.add("abc"));
+    }
+    @Test
+    void testIterator() {
+    	for(int i = 0; i < 10; i++) {
+    		myDLL.add(i);
+    	}
+    	for(Integer i : myDLL) {
+    		System.out.println(i);
+    	}
     }
 }
