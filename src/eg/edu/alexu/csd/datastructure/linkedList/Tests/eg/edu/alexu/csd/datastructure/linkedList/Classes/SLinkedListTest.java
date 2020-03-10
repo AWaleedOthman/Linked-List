@@ -29,6 +29,14 @@ class SLinkedListTest {
         assertFalse(ll.contains(5));
         ll.clear();
         assertTrue(ll.isEmpty());
+        ll.add("first");
+        ll.add("second");
+        ll.add(1, "new Entry");
+        ll.add(2, "another One");
+        assertEquals(ll.get(0), "first");
+        assertEquals(ll.get(1), "new Entry");
+        assertEquals(ll.get(2), "another One");
+        assertEquals(ll.get(3), "second");
     }
     @Test
     @SuppressWarnings("unchecked")
@@ -57,7 +65,16 @@ class SLinkedListTest {
         assertTrue(ll.hasNext());
         assertEquals(ll.getNext(), 4);
         assertFalse(ll.hasNext());
-        assertThrows(ArrayIndexOutOfBoundsException.class, ()->ll.getNext());
+        assertThrows(ArrayIndexOutOfBoundsException.class, ll::getNext);
+    }
+
+    @Test
+    void objectList() {
+        SLinkedList<Object> ll = new SLinkedList<>();
+        ll.add("StringSS");
+        ll.add(6);
+        assertEquals(((String)(ll.get(0))).substring(6), "SS");
+        assertEquals(((Integer) ll.get(1)).toString(), "6");
     }
 
 }

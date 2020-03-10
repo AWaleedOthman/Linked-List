@@ -69,7 +69,8 @@ public class SLinkedList <T> implements ILinkedList {
 
     @Override
     public void clear() {
-        start = null;
+        start.next = start;
+        current = start;
         size = 0;
     }
 
@@ -118,6 +119,16 @@ public class SLinkedList <T> implements ILinkedList {
         if (!this.hasNext()) throw new ArrayIndexOutOfBoundsException();
         current = current.next;
         return current.content;
+    }
+
+    /**
+     * same as getNext() but does not change current node, i.e. will return same Object if called twice
+     * without changing current node(calling getNext(), resetNext() or clear()) between the two times.
+     * @return next node's content
+     */
+    public T next() {
+        if (!this.hasNext()) throw new ArrayIndexOutOfBoundsException();
+        return current.next.content;
     }
 
     public void resetNext() {
