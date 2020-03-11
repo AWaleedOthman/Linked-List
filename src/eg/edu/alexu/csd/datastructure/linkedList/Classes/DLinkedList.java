@@ -1,7 +1,7 @@
 package eg.edu.alexu.csd.datastructure.linkedList.Classes;
-import java.util.Iterator;
-
 import eg.edu.alexu.csd.datastructure.linkedList.Interfaces.ILinkedList;
+
+import java.util.Iterator;
 
 
 public class DLinkedList<T> implements ILinkedList, Iterable<T> { //a DLL is an iterable for which iterators could be used, it's not an iterator itself
@@ -10,15 +10,15 @@ public class DLinkedList<T> implements ILinkedList, Iterable<T> { //a DLL is an 
 	private Node head;
 	private Node tail;
 	final Class<T> typeParameterClass;
-	
+
 	private class Node{
 		T data;
 		Node prev;
 		Node next;
 	}
-	
+
 	private class Itr implements Iterator<T>{
-		
+
 		private Node currentNode;
 		Itr(String arg){
 			switch(arg) {
@@ -43,15 +43,15 @@ public class DLinkedList<T> implements ILinkedList, Iterable<T> { //a DLL is an 
 			currentNode = currentNode.next;
 			return data;
 		}
-		
+
 	}
-	
+
 	private void validateIndex(int index) {
 		if(index < 0 || index >= size) {
 			throw new ArrayIndexOutOfBoundsException("index out of range");
 		}
 	}
-	
+
 	public DLinkedList(Class<T> typeParameterClass) { //initialise DLL with dummy nodes
 		head = new Node();
 		head.prev = null;
@@ -63,7 +63,7 @@ public class DLinkedList<T> implements ILinkedList, Iterable<T> { //a DLL is an 
 		head.next = tail;
 		this.typeParameterClass = typeParameterClass;
 	}
-	
+
 	@Override
 	public void add(int index, Object element){
 		if(index < 0 || index > size) { //if index == size, it's fine because I'll be adding a new node
@@ -98,7 +98,7 @@ public class DLinkedList<T> implements ILinkedList, Iterable<T> { //a DLL is an 
 		newNode.prev.next = newNode;
 		size++;
 	}
-	
+
 	@Override
 	public void add(Object element) {
 		Node newNode = new Node();
@@ -149,7 +149,7 @@ public class DLinkedList<T> implements ILinkedList, Iterable<T> { //a DLL is an 
 		validateIndex(index);
 		int currentIndex;
 		Node currentNode;
-		if(index > size/2) {//more towards the tail 
+		if(index > size/2) {//more towards the tail
 			currentIndex = size-1;
 			currentNode = tail.prev;
 			while(currentIndex > index) {
@@ -218,7 +218,7 @@ public class DLinkedList<T> implements ILinkedList, Iterable<T> { //a DLL is an 
 	public DLinkedList<T> sublist(int fromIndex, int toIndex) {
 		validateIndex(fromIndex);
 		validateIndex(toIndex);
-		DLinkedList<T> newList = new DLinkedList<T>(typeParameterClass);
+		DLinkedList<T> newList = new DLinkedList<>(typeParameterClass);
 		int currentIndex;
 		Node currentNode;
 		if(fromIndex <= toIndex) {
@@ -242,7 +242,7 @@ public class DLinkedList<T> implements ILinkedList, Iterable<T> { //a DLL is an 
 				currentIndex--;
 			}
 			while(currentIndex >= toIndex) {//creating a "deep" copy of each node
-				newList.add(currentNode.data);				
+				newList.add(currentNode.data);
 				currentNode = currentNode.prev;
 				currentIndex--;
 			}
@@ -263,11 +263,11 @@ public class DLinkedList<T> implements ILinkedList, Iterable<T> { //a DLL is an 
 	public Iterator<T> iterator(String arg) {//iterator for custom use, whether up or down
 		return new Itr(arg);
 	}
-	
+
 	@Override
 	public Iterator<T> iterator(){ //iterator for for-each loop
 		return new Itr("up");
 	}
 
-	
+
 }

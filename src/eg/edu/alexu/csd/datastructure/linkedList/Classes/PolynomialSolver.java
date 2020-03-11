@@ -4,7 +4,8 @@ import eg.edu.alexu.csd.datastructure.linkedList.Interfaces.IPolynomialSolver;
 
 public class PolynomialSolver implements IPolynomialSolver {
 
-    private SLinkedList<SLinkedList<Term>> polynomials = new SLinkedList<>();
+    @SuppressWarnings("unchecked")
+    private SLinkedList<Term>[] polynomials = new SLinkedList[4];
 
     private static class Term {
         private Integer coefficient, exponent;
@@ -15,7 +16,6 @@ public class PolynomialSolver implements IPolynomialSolver {
         }
 
     }
-
     private int[][] toArray (SLinkedList<Term> polynomial) {
         int size = polynomial.size();
         int[][] polyArray = new int[2][size];
@@ -30,10 +30,10 @@ public class PolynomialSolver implements IPolynomialSolver {
     }
 
     public PolynomialSolver() {
-        polynomials.add(new SLinkedList<Term>()); //A
-        polynomials.add(new SLinkedList<Term>()); //B
-        polynomials.add(new SLinkedList<Term>()); //C
-        polynomials.add(new SLinkedList<Term>()); //R
+        polynomials[0] = new SLinkedList<>(); //A
+        polynomials[1] = new SLinkedList<>(); //B
+        polynomials[2] = new SLinkedList<>(); //C
+        polynomials[3] = new SLinkedList<>(); //R
     }
 
     private int getIndex(char c) {
@@ -92,16 +92,17 @@ public class PolynomialSolver implements IPolynomialSolver {
 
     @Override
     public void setPolynomial(char poly, int[][] terms) {
+        clearPolynomial(poly);
         sort(terms);
         for (int i = 0; i < terms[0].length; i++) {
             if (terms[0][i] != 0)
-                polynomials.get(getIndex(poly)).add(new Term(terms[0][i]/*coefficient*/, terms[1][i]/*exponent*/));
+                polynomials[getIndex(poly)].add(new Term(terms[0][i]/*coefficient*/, terms[1][i]/*exponent*/));
         }
     }
 
     @Override
     public String print(char poly) {
-        SLinkedList<Term> tempPoly = polynomials.get(getIndex(poly));
+        SLinkedList<Term> tempPoly = polynomials[getIndex(poly)];
         if (tempPoly.size() == 0) return null;
         Term tempTerm = tempPoly.get(0);
         Integer tempCo = tempTerm.coefficient; //because it is used A LOT
@@ -140,12 +141,12 @@ public class PolynomialSolver implements IPolynomialSolver {
 
     @Override
     public void clearPolynomial(char poly) {
-        polynomials.remove(getIndex(poly));
+        polynomials[getIndex(poly)].clear();
     }
 
     @Override
     public float evaluatePolynomial(char poly, float value) {
-        SLinkedList<Term> tempPoly = polynomials.get(getIndex(poly));
+        SLinkedList<Term> tempPoly = polynomials[getIndex(poly)];
         Term tempTerm;
         float result = 0;
         tempPoly.resetNext();
@@ -164,9 +165,9 @@ public class PolynomialSolver implements IPolynomialSolver {
     will probably need to create another method for that purpose
      */
     public int[][] add(char poly1, char poly2) {
-        SLinkedList<Term> x = polynomials.get(getIndex(poly1));
-        SLinkedList<Term> y = polynomials.get(getIndex(poly2));
-        SLinkedList<Term> res = polynomials.get(getIndex('R'));
+        SLinkedList<Term> x = polynomials[getIndex(poly1)];
+        SLinkedList<Term> y = polynomials[getIndex(poly2)];
+        SLinkedList<Term> res = polynomials[getIndex('R')];
         x.resetNext(); y.resetNext(); res.clear();
         Term tempx, tempy;
         do {
@@ -195,9 +196,9 @@ public class PolynomialSolver implements IPolynomialSolver {
     @SuppressWarnings("DuplicatedCode")
     @Override
     public int[][] subtract(char poly1, char poly2) {
-        SLinkedList<Term> x = polynomials.get(getIndex(poly1));
-        SLinkedList<Term> y = polynomials.get(getIndex(poly2));
-        SLinkedList<Term> res = polynomials.get(getIndex('R'));
+        SLinkedList<Term> x = polynomials[getIndex(poly1)];
+        SLinkedList<Term> y = polynomials[getIndex(poly2)];
+        SLinkedList<Term> res = polynomials[getIndex('R')];
         x.resetNext(); y.resetNext(); res.clear();
         Term tempx, tempy;
         do {
@@ -226,5 +227,9 @@ public class PolynomialSolver implements IPolynomialSolver {
     @Override
     public int[][] multiply(char poly1, char poly2) {
         return new int[0][];
+    }
+
+    public boolean isEmpty(char poly) {
+        return polynomials[getIndex(poly)].isEmpty();
     }
 }

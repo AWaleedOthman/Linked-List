@@ -1,8 +1,6 @@
 package eg.edu.alexu.csd.datastructure.linkedList.Classes;
 import java.util.Iterator;
 
-import eg.edu.alexu.csd.datastructure.linkedList.Interfaces.ILinkedList;
-
 
 public class DLinkedList<T> implements ILinkedList, Iterable<T> { //a DLL is an iterable for which iterators could be used, it's not an iterator itself
 

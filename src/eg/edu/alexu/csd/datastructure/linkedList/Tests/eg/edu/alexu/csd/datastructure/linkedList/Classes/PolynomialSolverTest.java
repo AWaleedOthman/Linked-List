@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-//import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PolynomialSolverTest {
 
@@ -18,7 +18,6 @@ class PolynomialSolverTest {
                 "\\src\\eg\\edu\\alexu\\csd\\datastructure\\linkedList\\Tests\\Resources\\Polynomials.txt"));
         String sPoly = sc.nextLine();
         if (sPoly.length() != 1) throw new RuntimeException("Invalid variable name");
-        char cPoly = sPoly.charAt(0);
 
     }
 
@@ -35,6 +34,15 @@ class PolynomialSolverTest {
         System.out.println(ps.print('r'));
         ps.subtract('a', 'b');
         System.out.println(ps.print('r'));
+        assertFalse(ps.isEmpty('a'));
+        ps.clearPolynomial('a');
+        assertTrue(ps.isEmpty('a'));
+        ps.setPolynomial('a', testArr2);
+        ps.setPolynomial('b', testArr1);
+        assertFalse(ps.isEmpty('a'));
+        System.out.println();
+        System.out.println(ps.print('a'));
+        System.out.println(ps.print('b'));
     }
 
 }
