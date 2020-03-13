@@ -33,9 +33,9 @@ public class SLinkedList <T> implements ILinkedList {
     @Override
     @SuppressWarnings("unchecked")
     public void add(int index, Object element) {
-        if (index > size+1 || index < 0) throw new ArrayIndexOutOfBoundsException();
+        if (index > size || index < 0) throw new ArrayIndexOutOfBoundsException();//index = size+1 should not be allowed, maximum should be size (in which case a new element is appended 
 
-        Node prev = getNode(index-1);
+        Node prev = getNode(index-1);//OR MAYBE I'M WRONG..:/
         Node newNode = new Node();
         newNode.content = (T)element;
         newNode.next = prev.next;
@@ -47,7 +47,17 @@ public class SLinkedList <T> implements ILinkedList {
     public void add(Object element) {
         add(size, element);
     }
-
+    /*
+     * concatenates 
+     * @param otherList to the end of this list*/
+    public void add(SLinkedList<T> otherList) {
+    	Node lastNodeOfSelf = this.getNode(this.size-1);
+    	Node lastNodeOfOther = otherList.getNode(otherList.size-1);
+    	this.size += otherList.size;
+    	lastNodeOfSelf.next = otherList.start.next;
+    	lastNodeOfOther.next = this.start;//close the circle
+    }
+    
     @Override
     public T get(int index) throws ArrayIndexOutOfBoundsException {
         if (index > size -1 || index < 0) throw new ArrayIndexOutOfBoundsException();

@@ -5,11 +5,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DLinkedListTest {
 	
-	DLinkedList<Integer> myDLL = new DLinkedList<Integer>(Integer.class);
+	DLinkedList<Integer> myDLL = new DLinkedList<>(Integer.class);
 
     @Test
     void add() {
-        DLinkedList<String> ll = new DLinkedList<String>(String.class);
+        DLinkedList<String> ll = new DLinkedList<>(String.class);
         ll.add("first");
         ll.add("second");
         ll.add(1, "new Entry");
@@ -54,15 +54,15 @@ class DLinkedListTest {
     @Test
     void testClear() {
     	for(int i = 0; i < 10; i++) {
-    		myDLL.add(Integer.valueOf(i));
+    		myDLL.add(i);
     	}
     	myDLL.clear();
-    	assertThrows(ArrayIndexOutOfBoundsException.class, () -> {myDLL.get(0);});
+    	assertThrows(ArrayIndexOutOfBoundsException.class, () -> myDLL.get(0));
     }
     
     @Test
     void testTypeConversions() {
-    	myDLL = new DLinkedList<Integer>(Integer.class);
+    	myDLL = new DLinkedList<>(Integer.class);
     	myDLL.add(3);
     	assertThrows(IllegalArgumentException.class, ()-> myDLL.add("abc"));
     }

@@ -4,18 +4,19 @@ import eg.edu.alexu.csd.datastructure.linkedList.Interfaces.IPolynomialSolver;
 
 public class PolynomialSolver implements IPolynomialSolver {
 
-    @SuppressWarnings("unchecked")
-    private SLinkedList<Term>[] polynomials = new SLinkedList[4];
-
-    private static class Term {
+	private static class Term {
         private Integer coefficient, exponent;
 
         public Term(int coefficient, int exponent) {
             this.coefficient = coefficient;
             this.exponent = exponent;
         }
-
     }
+	
+	@SuppressWarnings("unchecked")
+    private SLinkedList<Term>[] polynomials = new SLinkedList[4];
+
+    
     private int[][] toArray (SLinkedList<Term> polynomial) {
         int size = polynomial.size();
         int[][] polyArray = new int[2][size];
@@ -65,7 +66,7 @@ public class PolynomialSolver implements IPolynomialSolver {
     TODO
     needs to be changed to sort while taking input from user
     also need to handle case if user inputs two terms with same exponent while sorting
-    will probably use DLinkedList to take input and sort then change to int[][]
+    will probably use SLinkedList to take input and sort then change to int[][]
      */
     private void sort(int[][] terms) { //bubble sort
         int n = terms[0].length;
@@ -157,7 +158,7 @@ public class PolynomialSolver implements IPolynomialSolver {
         return result;
     }
 
-    @SuppressWarnings("DuplicatedCode")
+    //@SuppressWarnings("DuplicatedCode") my compiler doesn't like it i have no idea why
     @Override
     /*
     TODO
@@ -169,8 +170,17 @@ public class PolynomialSolver implements IPolynomialSolver {
         SLinkedList<Term> y = polynomials[getIndex(poly2)];
         SLinkedList<Term> res = polynomials[getIndex('R')];
         x.resetNext(); y.resetNext(); res.clear();
-        Term tempx, tempy;
-        do {
+        res.add(add(x,y,0));
+        return toArray(res);
+    }
+    
+    private SLinkedList<Term> add(SLinkedList<Term> x, SLinkedList<Term> y, int skip) {
+    	Term tempx, tempy;
+    	SLinkedList<Term> res = new SLinkedList<>();
+    	for(int i=0; i<skip; i++) {//skipping unnecessary terms, thanks for the 'resetNext()' feature, Waleed :D!
+			res.add(x.getNext());
+		}
+    	while (x.hasNext() && y.hasNext()) {
             if (x.next().exponent > y.next().exponent) {
                 tempx = x.getNext();
                 res.add(new Term(tempx.coefficient, tempx.exponent));
@@ -182,18 +192,19 @@ public class PolynomialSolver implements IPolynomialSolver {
                 if (tempx.coefficient + tempy.coefficient == 0) continue;
                 res.add(new Term(tempx.coefficient + tempy.coefficient, tempx.exponent));
             }
-        } while (x.hasNext() && y.hasNext());
-        if (x.hasNext()) {
+        } 
+        while (x.hasNext()) {
             tempx = x.getNext();
             res.add(new Term(tempx.coefficient, tempx.exponent));
-        } else if (y.hasNext()) {
+        } 
+        while (y.hasNext()) {
             tempy = y.getNext();
             res.add(new Term(tempy.coefficient, tempy.exponent));
         }
-        return toArray(res);
+        return res;
     }
 
-    @SuppressWarnings("DuplicatedCode")
+    //@SuppressWarnings("DuplicatedCode")
     @Override
     public int[][] subtract(char poly1, char poly2) {
         SLinkedList<Term> x = polynomials[getIndex(poly1)];
@@ -225,9 +236,38 @@ public class PolynomialSolver implements IPolynomialSolver {
     }
 
     @Override
-    public int[][] multiply(char poly1, char poly2) {
-        return new int[0][];
-    }
+	public int[][] multiply(char poly1, char poly2) {
+    	SLinkedList<Term> temp;
+    	SLinkedList<Term> x = polynomials[getIndex(poly1)];
+        SLinkedList<Term> y = polynomials[getIndex(poly2)];
+        if(x.size() < y.size()) {//make y the shorter one
+        	temp = x;
+        	x = y;
+        	y = temp;
+        }
+        SLinkedList<Term> res = new SLinkedList<>();
+		SLinkedList<Term> partialResult = new SLinkedList<>();
+		Term tempTerm, term1, term2;
+		y.resetNext();
+		int skippedTerms = 0;
+		for(;y.hasNext();y.getNext(),skippedTerms++) { //again, we will replace this, it's only possible because of iterable
+			x.resetNext();
+			term2 = y.next();
+			for(;x.hasNext();x.getNext()) {
+				
+				term1 = x.next();
+				tempTerm = new Term(term1.coefficient*term2.coefficient, term1.exponent+term2.exponent);
+				
+				partialResult.add(tempTerm);
+			}
+			res.resetNext();
+			partialResult.resetNext();
+			res = add(res, partialResult,skippedTerms);
+			partialResult.clear();
+		}
+		polynomials[getIndex('r')] = res;
+		return toArray(res);
+	}
 
     public boolean isEmpty(char poly) {
         return polynomials[getIndex(poly)].isEmpty();
