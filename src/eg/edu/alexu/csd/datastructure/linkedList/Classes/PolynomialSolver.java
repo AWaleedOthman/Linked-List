@@ -104,7 +104,7 @@ public class PolynomialSolver implements IPolynomialSolver {
     @Override
     public String print(char poly) {
         SLinkedList<Term> tempPoly = polynomials[getIndex(poly)];
-        if (tempPoly.size() == 0) return null;
+        if (tempPoly.size() == 0) return "0"; //why is this null? this should be zero because if I subtract 2 equal polynomials, it should print 0
         Term tempTerm = tempPoly.get(0);
         Integer tempCo = tempTerm.coefficient; //because it is used A LOT
         String sExponent = tempTerm.exponent == 0? "" : (tempTerm.exponent == 1? "x" :
@@ -167,10 +167,15 @@ public class PolynomialSolver implements IPolynomialSolver {
      */
     public int[][] add(char poly1, char poly2) {
         SLinkedList<Term> x = polynomials[getIndex(poly1)];
-        SLinkedList<Term> y = polynomials[getIndex(poly2)];
-        SLinkedList<Term> res = polynomials[getIndex('R')];
-        x.resetNext(); y.resetNext(); res.clear();
-        res.add(add(x,y,0));
+        SLinkedList<Term> y;
+        if(poly1 == poly2) //if both are the same, polynomial, then x and y reference the same object, so when x.hasNext() is false, so is y, although we have not yet dully iterated through y!
+        	y = x.sublist(0, x.size()-1);
+        else
+        	y = polynomials[getIndex(poly2)];
+        SLinkedList<Term> res;
+        x.resetNext(); y.resetNext();
+        res = add(x,y,0);
+		polynomials[getIndex('R')] = res;
         return toArray(res);
     }
     
@@ -239,7 +244,12 @@ public class PolynomialSolver implements IPolynomialSolver {
 	public int[][] multiply(char poly1, char poly2) {
     	SLinkedList<Term> temp;
     	SLinkedList<Term> x = polynomials[getIndex(poly1)];
-        SLinkedList<Term> y = polynomials[getIndex(poly2)];
+    	SLinkedList<Term> y;
+    	if(poly1 == poly2)
+        	y = x.sublist(0, x.size()-1);
+        else
+        	y = polynomials[getIndex(poly2)];
+    	
         if(x.size() < y.size()) {//make y the shorter one
         	temp = x;
         	x = y;
@@ -250,7 +260,7 @@ public class PolynomialSolver implements IPolynomialSolver {
 		Term tempTerm, term1, term2;
 		y.resetNext();
 		int skippedTerms = 0;
-		for(;y.hasNext();y.getNext(),skippedTerms++) { //again, we will replace this, it's only possible because of iterable
+		for(;y.hasNext();y.getNext(),skippedTerms++) {
 			x.resetNext();
 			term2 = y.next();
 			for(;x.hasNext();x.getNext()) {

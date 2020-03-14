@@ -47,16 +47,6 @@ public class SLinkedList <T> implements ILinkedList {
     public void add(Object element) {
         add(size, element);
     }
-    /*
-     * concatenates 
-     * @param otherList to the end of this list*/
-    public void add(SLinkedList<T> otherList) {
-    	Node lastNodeOfSelf = this.getNode(this.size-1);
-    	Node lastNodeOfOther = otherList.getNode(otherList.size-1);
-    	this.size += otherList.size;
-    	lastNodeOfSelf.next = otherList.start.next;
-    	lastNodeOfOther.next = this.start;//close the circle
-    }
     
     @Override
     public T get(int index) throws ArrayIndexOutOfBoundsException {
@@ -102,7 +92,7 @@ public class SLinkedList <T> implements ILinkedList {
     }
 
     @Override
-    public ILinkedList sublist(int fromIndex, int toIndex) {
+    public SLinkedList<T> sublist(int fromIndex, int toIndex) {
         if (fromIndex < 0 || toIndex > size -1 || fromIndex > toIndex) throw new ArrayIndexOutOfBoundsException();
         SLinkedList<T> newList = new SLinkedList<>();
         for (int i = fromIndex; i <= toIndex; i++) {

@@ -1,6 +1,8 @@
 /*package eg.edu.alexu.csd.datastructure.linkedList;
 
 import java.util.Scanner;
+-found some bugs when operations (add, subtract and multiply) are done on the same polynomial
+-edited scanner usage, more info in the comments
 
 public class CoreCode {
 	public static void main(String[] args) {
