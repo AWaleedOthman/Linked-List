@@ -33,7 +33,7 @@ public class SLinkedList <T> implements ILinkedList {
     @Override
     @SuppressWarnings("unchecked")
     public void add(int index, Object element) {
-        if (index > size || index < 0) throw new ArrayIndexOutOfBoundsException();//index = size+1 should not be allowed, maximum should be size (in which case a new element is appended
+        if (index > size || index < 0) throw new ArrayIndexOutOfBoundsException();//index = size+1 should not be allowed, maximum should be size (in which case a new element is appended 
 
         Node prev = getNode(index-1);//OR MAYBE I'M WRONG..:/
         Node newNode = new Node();
@@ -47,7 +47,7 @@ public class SLinkedList <T> implements ILinkedList {
     public void add(Object element) {
         add(size, element);
     }
-
+    
     @Override
     public T get(int index) throws ArrayIndexOutOfBoundsException {
         if (index > size -1 || index < 0) throw new ArrayIndexOutOfBoundsException();
@@ -112,7 +112,7 @@ public class SLinkedList <T> implements ILinkedList {
     }
 
     public boolean hasNext() {
-        return current.next != start;
+        return !(current.next == start);
     }
 
     public T getNext() {

@@ -20,15 +20,19 @@ public class DLinkedList<T> implements ILinkedList, Iterable<T> { //a DLL is an 
 	private class Itr implements Iterator<T>{
 		
 		private Node currentNode;
+		private int arg;
 		Itr(){ //to save the switch
 			currentNode = head.next;
+			arg = 0;
 		}
-		Itr(String arg){
+		
+		Itr(int arg){
+			this.arg = arg;
 			switch(arg) {
-			case "up":
+			case 0:
 				currentNode = head.next;
 				break;
-			case "down":
+			case 1:
 				currentNode = tail.prev;
 				break;
 			default:
@@ -37,7 +41,10 @@ public class DLinkedList<T> implements ILinkedList, Iterable<T> { //a DLL is an 
 		}
 		@Override
 		public boolean hasNext() {
-			return currentNode != tail;
+			if(arg == 0)
+				return currentNode != tail;
+			else 
+				return currentNode != head;
 		}
 
 		@Override
@@ -100,10 +107,10 @@ public class DLinkedList<T> implements ILinkedList, Iterable<T> { //a DLL is an 
 		int currentIndex;
 		Node currentNode;
 		if(index > size/2) {
-			currentNode = tail.prev;
-			currentIndex = size-1;
+			currentNode = tail;
+			currentIndex = size;
 			while(index < currentIndex) {
-				currentNode = currentNode.next;
+				currentNode = currentNode.prev;
 				currentIndex--;
 			}
 		}else {
@@ -281,8 +288,12 @@ public class DLinkedList<T> implements ILinkedList, Iterable<T> { //a DLL is an 
 		}
 		return false;
 	}
-
-	public Iterator<T> iterator(String arg) {//iterator for custom use, whether up or down
+	
+	/*
+	 * @param arg 
+	 * 	0 --> start from head
+	 *  1 --> start from tail */
+	public Iterator<T> iterator(int arg) {//iterator for custom use, whether up or down
 		return new Itr(arg);
 	}
 	
