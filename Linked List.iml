@@ -3,14 +3,12 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/eg/edu/alexu/csd/datastructure/linkedList/Tests" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/eg/edu/alexu/csd/datastructure/linkedList/Tests/Resources" type="java-test-resource" />
-      <excludeFolder url="file://$MODULE_DIR$/src/eg/edu/alexu/csd/datastructure/linkedList/Tests/CoverageReport" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/tests" isTestSource="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" scope="TEST">
       <library name="JUnit5.4">
         <CLASSES>
           <root url="jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter/5.4.2/junit-jupiter-5.4.2.jar!/" />
