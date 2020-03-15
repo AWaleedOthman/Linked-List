@@ -176,7 +176,7 @@ public class Core {
 	        } catch (Exception e) {
 	            throw new RuntimeException("Invalid Input"); //exception originally thrown by Scanner.nextFloat
 	        }
-	        if (ll.size()%2 == 1) throw new RuntimeException("Invalid Input"); //odd number of entries
+	        if (ll.size()%2 == 1 || ll.size() == 0) throw new RuntimeException("Invalid Input"); //odd number of entries or no entries at all
 	        else { //to array
 	            numbers = new int[2][ll.size()/2];
 	            int i = 0;

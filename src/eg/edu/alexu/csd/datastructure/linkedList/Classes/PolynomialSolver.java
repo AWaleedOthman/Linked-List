@@ -68,36 +68,41 @@ public class PolynomialSolver implements IPolynomialSolver {
     also need to handle case if user inputs two terms with same exponent while sorting
     will probably use SLinkedList to take input and sort then change to int[][]
      */
-    private void sort(int[][] terms) { //bubble sort
-        int n = terms[0].length;
-        int i, j, temp;
-        boolean swapped;
-        for (i = 0; i < n - 1; i++) {
-            swapped = false;
-            for (j = 0; j < n - i - 1; j++) {
-                if (terms[1][j] < terms[1][j + 1]) {
-                    temp = terms[1][j];
-                    terms[1][j] = terms[1][j + 1];
-                    terms[1][j + 1] = temp;
-                    temp = terms[0][j];
-                    terms[0][j] = terms[0][j + 1];
-                    terms[0][j + 1] = temp;
-                    swapped = true;
-                }
-            }
-
-            if (!swapped)
-                break;
-        }
-    }
 
     @Override
     public void setPolynomial(char poly, int[][] terms) {
         clearPolynomial(poly);
-        sort(terms);
-        for (int i = 0; i < terms[0].length; i++) {
-            if (terms[0][i] != 0)
-                polynomials[getIndex(poly)].add(new Term(terms[0][i]/*coefficient*/, terms[1][i]/*exponent*/));
+        SLinkedList<Term> temp = new SLinkedList<Term>();
+        temp.add(new Term(terms[0][0], terms[1][0]));
+        int index;
+        boolean added;
+        //sort(terms); remove zero coefficients at the end so that if e.g. 2x and -2x are in the same expression they will add up to zero
+        for (int i = 1; i < terms[0].length; i++) {
+        	index = 0;
+        	added = false;
+        	for(temp.resetNext(); temp.hasNext(); temp.getNext()) {
+        		if(temp.next().exponent > terms[1][i]) {//find place in list
+        			index++;
+        			continue;
+        		} 
+        		else if(temp.next().exponent == terms[1][i]) {//repeated exponent
+        			temp.next().coefficient+= terms[0][i]; //skip this term
+        			added = true;
+        			break;
+        		}
+        		else {//add new term here
+        			temp.add(index, new Term(terms[0][i]/*coefficient*/, terms[1][i]/*exponent*/));
+        			added = true;
+        			break;
+        		}
+        	}
+        	if(!added)//we continued till the very end of the loop
+        		temp.add(new Term(terms[0][i]/*coefficient*/, terms[1][i]/*exponent*/));
+        }
+        index = this.getIndex(poly); //here index has a different purpose than above
+        for(temp.resetNext(); temp.hasNext(); temp.getNext()) {
+        	if(temp.next().coefficient!=0)
+        		polynomials[index].add(temp.next());
         }
     }
 
