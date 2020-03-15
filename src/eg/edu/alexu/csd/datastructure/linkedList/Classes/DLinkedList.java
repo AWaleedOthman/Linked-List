@@ -46,6 +46,13 @@ public class DLinkedList<T> implements ILinkedList, Iterable<T> { //a DLL is an 
 			currentNode = currentNode.next;
 			return data;
 		}
+		
+		@Override
+		public void remove() {
+			currentNode.prev.next = currentNode.next;
+			currentNode.next.prev = currentNode.prev;
+			size--;
+		}
 
 		//the above functions are defined in the interface so they can be used when returning an Itr object that is caster to Iterator
 		//but the next ones can't so this is a failed idea.
