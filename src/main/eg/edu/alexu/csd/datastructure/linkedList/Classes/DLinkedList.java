@@ -50,14 +50,25 @@ public class DLinkedList<T> implements ILinkedList, Iterable<T> { //a DLL is an 
 		@Override
 		public T next() {
 			T data = currentNode.data;
-			currentNode = currentNode.next;
+			if(arg == 0)
+				currentNode = currentNode.next;
+			else
+				currentNode = currentNode.prev;
 			return data;
 		}
 		
 		@Override
 		public void remove() {
-			currentNode.prev.next = currentNode.next;
-			currentNode.next.prev = currentNode.prev;
+			Node pastNode;
+			if(arg == 0) {//currentNode becomes the next node
+				pastNode = currentNode.prev;
+			}
+			else//currentNode becomes the previous one
+			{
+				pastNode = currentNode.next;
+			}
+			pastNode.prev.next = pastNode.next;
+			pastNode.next.prev = pastNode.prev;
 			size--;
 		}
 
