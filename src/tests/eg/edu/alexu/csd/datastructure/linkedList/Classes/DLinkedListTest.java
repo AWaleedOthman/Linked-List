@@ -1,12 +1,13 @@
 package eg.edu.alexu.csd.datastructure.linkedList.Classes;
-
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DLinkedListTest {
+import java.util.Iterator;
 
-    DLinkedList<Integer> myDLL = new DLinkedList<>(Integer.class);
+class DLinkedListTest {
+	
+	DLinkedList<Integer> myDLL = new DLinkedList<>(Integer.class);
 
     @Test
     void add() {
@@ -15,17 +16,19 @@ class DLinkedListTest {
         ll.add("second");
         ll.add(1, "new Entry");
         ll.add(2, "another One");
+        ll.add(ll.size(),"end");
         assertEquals(ll.get(0), "first");
         assertEquals(ll.get(1), "new Entry");
         assertEquals(ll.get(2), "another One");
         assertEquals(ll.get(3), "second");
+        assertEquals(ll.get(ll.size()-1), "end");
         ll.set(2, "test set");
         assertEquals(ll.get(2), "test set");
-        assertEquals(ll.size(), 4);
-        assertThrows(ArrayIndexOutOfBoundsException.class, ()->ll.get(4));
+        assertEquals(ll.size(), 5);
+        assertThrows(ArrayIndexOutOfBoundsException.class, ()->ll.get(5));
         ll.remove(1);
         assertEquals(ll.get(2), "second");
-        assertEquals(ll.size(), 3);
+        assertEquals(ll.size(), 4);
         assertFalse(ll.isEmpty());
         assertTrue(ll.contains("first"));
         assertFalse(ll.contains("another One"));
@@ -36,44 +39,52 @@ class DLinkedListTest {
     }
     @Test
     void subList() {
-        myDLL.clear();
+    	myDLL.clear();
         DLinkedList<Integer> testLL = new DLinkedList<>(Integer.class);
         for (int i = 0; i < 10; i++) {
             myDLL.add(i);
         }
         for(int i = 3; i < 8; i++) {
-            testLL.add(i);
+        	testLL.add(i);
         }
         assertIterableEquals(testLL, myDLL.sublist(3, 7));
         assertThrows(ArrayIndexOutOfBoundsException.class, ()-> myDLL.sublist(0, 20));
         for(int i = 3; i < 8; i++) {
-            testLL.set(i-3, 10-i);
+        	testLL.set(i-3, 10-i);
         }
         assertIterableEquals(testLL, myDLL.sublist(7, 3));
     }
-
+    
     @Test
     void testClear() {
-        for(int i = 0; i < 10; i++) {
-            myDLL.add(i);
-        }
-        myDLL.clear();
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> myDLL.get(0));
+    	for(int i = 0; i < 10; i++) {
+    		myDLL.add(i);
+    	}
+    	myDLL.clear();
+    	assertThrows(ArrayIndexOutOfBoundsException.class, () -> myDLL.get(0));
     }
-
+    
     @Test
     void testTypeConversions() {
-        myDLL = new DLinkedList<>(Integer.class);
-        myDLL.add(3);
-        assertThrows(IllegalArgumentException.class, ()-> myDLL.add("abc"));
+    	myDLL = new DLinkedList<>(Integer.class);
+    	myDLL.add(3);
+    	assertThrows(IllegalArgumentException.class, ()-> myDLL.add("abc"));
     }
     @Test
     void testIterator() {
-        for(int i = 0; i < 10; i++) {
-            myDLL.add(i);
-        }
-        for(Integer i : myDLL) {
-            System.out.println(i);
-        }
+    	for(int i = 0; i < 10; i++) {
+    		myDLL.add(i);
+    	}
+    	for(Integer i : myDLL) {
+    		System.out.println(i);
+    	}
+    	for(Iterator<Integer> i = myDLL.iterator(); i.hasNext(); ) {
+    		Integer current = i.next();
+    		if(current == 4)
+    			i.remove();
+    	}
+    	for(Iterator <Integer> i = myDLL.iterator(1); i.hasNext();) {
+    		System.out.println(i.next());
+    	}
     }
 }
