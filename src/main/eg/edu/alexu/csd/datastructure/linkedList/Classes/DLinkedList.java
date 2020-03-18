@@ -21,7 +21,7 @@ public class DLinkedList<T> implements ILinkedList, Iterable<T> { //a DLL is an 
 		
 		private Node currentNode;
 		private int arg;
-		Itr(){ //to save the switch
+		Itr(){ 
 			this(0);
 		}
 		

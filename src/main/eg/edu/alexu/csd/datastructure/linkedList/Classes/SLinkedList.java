@@ -81,6 +81,7 @@ public class SLinkedList <T> implements ILinkedList {
 
     @Override
     public void remove(int index) {
+        if (index < 0 || index > size -1) throw new ArrayIndexOutOfBoundsException();
         Node prev = getNode(index -1);
         if (prev.next == current) current = prev.next.next;
         prev.next = prev.next.next;
