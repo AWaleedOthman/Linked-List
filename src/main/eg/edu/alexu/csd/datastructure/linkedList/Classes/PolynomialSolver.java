@@ -19,13 +19,13 @@ public class PolynomialSolver implements IPolynomialSolver {
 
     private int[][] toArray (SLinkedList<Term> polynomial) {
         int size = polynomial.size();
-        int[][] polyArray = new int[2][size];
+        int[][] polyArray = new int[size][2];
         Term tempTerm;
         polynomial.resetNext();
         for (int i = 0; i < size; i++) {
             tempTerm = polynomial.getNext();
-            polyArray[0][i] = tempTerm.coefficient;
-            polyArray[1][i] = tempTerm.exponent;
+            polyArray[i][0] = tempTerm.coefficient;
+            polyArray[i][1] = tempTerm.exponent;
         }
         return polyArray;
     }
@@ -95,9 +95,9 @@ public class PolynomialSolver implements IPolynomialSolver {
     public void setPolynomial(char poly, int[][] terms) {
         clearPolynomial(poly);
         sort(terms);
-        for (int i = 0; i < terms[0].length; i++) {
-            if (terms[0][i] != 0)
-                polynomials[getIndex(poly)].add(new Term(terms[0][i]/*coefficient*/, terms[1][i]/*exponent*/));
+        for (int[] term : terms) {
+            if (term[0] != 0)
+                polynomials[getIndex(poly)].add(new Term(term[0]/*coefficient*/, term[1]/*exponent*/));
         }
     }
 
@@ -160,11 +160,6 @@ public class PolynomialSolver implements IPolynomialSolver {
 
     //@SuppressWarnings("DuplicatedCode") my compiler doesn't like it i have no idea why
     @Override
-    /*
-    TODO
-    must check that both polynomials not empty in main
-    will probably need to create another method for that purpose
-     */
     public int[][] add(char poly1, char poly2) {
         SLinkedList<Term> x = polynomials[getIndex(poly1)];
         SLinkedList<Term> y;

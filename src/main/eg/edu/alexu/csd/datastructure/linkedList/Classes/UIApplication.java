@@ -2,7 +2,7 @@ package eg.edu.alexu.csd.datastructure.linkedList.Classes;
 
 import java.util.Scanner;
 
-public class Core {
+public class UIApplication {
     public static void main (String[] args) { //changes to scanner usage:
         //1. try with resources to prevent resource leak
         //2. pass sc as an argument to methods that read from System.in because https://stackoverflow.com/questions/13042008/java-util-nosuchelementexception-scanner-reading-user-input
@@ -20,7 +20,7 @@ public class Core {
                     case 1: //set
                         System.out.println("Insert the variable name: A, B or C:");
                         poly = getChar(false,sc);
-                        System.out.println("Insert the polynomial terms in the form: " +
+                        System.out.println("Insert the polynomial terms in the form:\n" +
                                 "(coeff1, exponent1), (coeff2, exponent2), ..");
                         ps.setPolynomial(poly, getNumbers(sc.nextLine()));
                         System.out.println("Polynomial " + Character.toUpperCase(poly) + " has been set.");
@@ -29,10 +29,9 @@ public class Core {
                     case 2: //print
                         System.out.println(chooseOne);
                         poly = getChar(true,sc);
-                        while (ps.isEmpty(poly)) {
+                        if (ps.isEmpty(poly)) {
                             System.out.println("Variable not set");
-                            System.out.println(chooseOne);
-                            poly = getChar(true,sc);
+                            break;
                         }
                         System.out.println(Character.toUpperCase(poly) + " value in "
                                 + Character.toUpperCase(poly) + " is: " + ps.print(poly));
@@ -41,17 +40,15 @@ public class Core {
                     case 3: //add
                         System.out.println(chooseFirst);
                         poly = getChar(true,sc);
-                        while (ps.isEmpty(poly)) {
+                        if (ps.isEmpty(poly)) {
                             System.out.println("Variable not set");
-                            System.out.println(chooseOne);
-                            poly = getChar(true,sc);
+                            break;
                         }
                         System.out.println(chooseSecond);
                         poly2 = getChar(true,sc);
-                        while (ps.isEmpty(poly2)) {
+                        if (ps.isEmpty(poly2)) {
                             System.out.println("Variable not set");
-                            System.out.println(chooseOne);
-                            poly2 = getChar(true,sc);
+                            break;
                         }
                         ps.add(poly, poly2);
                         System.out.println("Result set in R: " + ps.print('r'));
@@ -60,17 +57,15 @@ public class Core {
                     case 4: //subtract
                         System.out.println(chooseFirst);
                         poly = getChar(true,sc);
-                        while (ps.isEmpty(poly)) {
+                        if (ps.isEmpty(poly)) {
                             System.out.println("Variable not set");
-                            System.out.println(chooseOne);
-                            poly = getChar(true,sc);
+                            break;
                         }
                         System.out.println(chooseSecond);
                         poly2 = getChar(true,sc);
-                        while (ps.isEmpty(poly2)) {
+                        if (ps.isEmpty(poly2)) {
                             System.out.println("Variable not set");
-                            System.out.println(chooseOne);
-                            poly2 = getChar(true,sc);
+                            break;
                         }
                         ps.subtract(poly, poly2);
                         System.out.println("Result set in R: " + ps.print('r'));
@@ -79,17 +74,15 @@ public class Core {
                     case 5: //multiply
                         System.out.println(chooseFirst);
                         poly = getChar(true,sc);
-                        while (ps.isEmpty(poly)) {
+                        if (ps.isEmpty(poly)) {
                             System.out.println("Variable not set");
-                            System.out.println(chooseOne);
-                            poly = getChar(true,sc);
+                            break;
                         }
                         System.out.println(chooseSecond);
                         poly2 = getChar(true,sc);
-                        while (ps.isEmpty(poly2)) {
+                        if (ps.isEmpty(poly2)) {
                             System.out.println("Variable not set");
-                            System.out.println(chooseOne);
-                            poly2 = getChar(true,sc);
+                            break;
                         }
                         ps.multiply(poly, poly2);
                         System.out.println("Result set in R: " + ps.print('r'));
@@ -98,10 +91,9 @@ public class Core {
                     case 6: //evaluate
                         System.out.println(chooseOne);
                         poly = getChar(true,sc);
-                        while (ps.isEmpty(poly)) {
+                        if (ps.isEmpty(poly)) {
                             System.out.println("Variable not set");
-                            System.out.println(chooseOne);
-                            poly = getChar(true,sc);
+                            break;
                         }
                         float point;
                         try {
@@ -132,6 +124,11 @@ public class Core {
     Main Menu
      */
     private static int menu (Scanner sc) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         int inputInt;
         System.out.println("Please choose an action\n" +
                 "-----------------------\n" +

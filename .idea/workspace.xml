@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2d0dc4dc-9412-4284-8152-e739b47cd481" name="Default Changelist" comment="" />
+    <list default="true" id="2d0dc4dc-9412-4284-8152-e739b47cd481" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Linked List/eg/edu/alexu/csd/datastructure/linkedList/Classes/Core.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Linked List/eg/edu/alexu/csd/datastructure/linkedList/Classes/SLinkedList.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Linked List/eg/edu/alexu/csd/datastructure/linkedList/Classes/SLinkedList.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/eg/edu/alexu/csd/datastructure/linkedList/Classes/Core.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/eg/edu/alexu/csd/datastructure/linkedList/Classes/UIApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/eg/edu/alexu/csd/datastructure/linkedList/Classes/PolynomialSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/eg/edu/alexu/csd/datastructure/linkedList/Classes/PolynomialSolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/eg/edu/alexu/csd/datastructure/linkedList/Classes/SLinkedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/eg/edu/alexu/csd/datastructure/linkedList/Classes/SLinkedList.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,8 +33,27 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
-  <component name="RunManager" selected="JUnit.DLinkedListTest">
+  <component name="RunManager" selected="Application.UIApplication">
+    <configuration name="UIApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="eg.edu.alexu.csd.datastructure.linkedList.Classes.UIApplication" />
+      <module name="Linked List" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="eg.edu.alexu.csd.datastructure.linkedList.Classes.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="DLinkedListTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Linked List" />
       <extension name="coverage">
@@ -74,6 +101,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.UIApplication" />
         <item itemvalue="JUnit.DLinkedListTest" />
         <item itemvalue="JUnit.PolynomialSolverTest" />
         <item itemvalue="JUnit.SLinkedListTest" />
@@ -90,6 +118,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1584277408559</updated>
+      <workItem from="1584277409927" duration="205000" />
+      <workItem from="1584284917263" duration="1100000" />
+      <workItem from="1584291988226" duration="417000" />
+      <workItem from="1584350110594" duration="340000" />
+      <workItem from="1584380763479" duration="3000" />
+      <workItem from="1584520905413" duration="1010000" />
     </task>
     <servers />
   </component>
@@ -97,25 +131,41 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1584277456104">
+    <state x="483" y="93" key="#UIApplication" timestamp="1584284997732">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1584277456104" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1584277456103">
+    <state x="483" y="93" key="#UIApplication/0.0.1536.824@0.0.1536.824" timestamp="1584284997732" />
+    <state x="549" y="157" key="FileChooserDialogImpl" timestamp="1584350448138">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1584277456103" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1584277456103">
+    <state x="549" y="157" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1584350448138" />
+    <state width="1493" height="538" key="GridCell.Tab.0.bottom" timestamp="1584286017486">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1584277456103" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1584277456104">
+    <state width="1493" height="538" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1584286017486" />
+    <state width="1493" height="538" key="GridCell.Tab.0.center" timestamp="1584286017486">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1584277456104" />
+    <state width="1493" height="538" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1584286017486" />
+    <state width="1493" height="538" key="GridCell.Tab.0.left" timestamp="1584286017486">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="538" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1584286017486" />
+    <state width="1493" height="538" key="GridCell.Tab.0.right" timestamp="1584286017486">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="538" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1584286017486" />
+    <state x="477" y="240" key="com.intellij.ide.util.TipDialog" timestamp="1584520920708">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="477" y="240" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1584520920708" />
     <state x="498" y="314" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1584277430983">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="498" y="314" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1536.824@0.0.1536.824" timestamp="1584277430983" />
+    <state x="209" y="39" key="new project wizard" timestamp="1584350449662">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="209" y="39" key="new project wizard/0.0.1536.824@0.0.1536.824" timestamp="1584350449662" />
   </component>
 </project>

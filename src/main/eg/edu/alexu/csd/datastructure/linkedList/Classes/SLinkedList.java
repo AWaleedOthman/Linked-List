@@ -82,6 +82,7 @@ public class SLinkedList <T> implements ILinkedList {
     @Override
     public void remove(int index) {
         Node prev = getNode(index -1);
+        if (prev.next == current) current = prev.next.next;
         prev.next = prev.next.next;
         size--;
     }
