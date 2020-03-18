@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d0dc4dc-9412-4284-8152-e739b47cd481" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Linked List/eg/edu/alexu/csd/datastructure/linkedList/Classes/Core.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Linked List/eg/edu/alexu/csd/datastructure/linkedList/Classes/SLinkedList.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Linked List/eg/edu/alexu/csd/datastructure/linkedList/Classes/SLinkedList.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/eg/edu/alexu/csd/datastructure/linkedList/Classes/Core.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/eg/edu/alexu/csd/datastructure/linkedList/Classes/UIApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/eg/edu/alexu/csd/datastructure/linkedList/Classes/PolynomialSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/eg/edu/alexu/csd/datastructure/linkedList/Classes/PolynomialSolver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/eg/edu/alexu/csd/datastructure/linkedList/Classes/SLinkedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/eg/edu/alexu/csd/datastructure/linkedList/Classes/SLinkedList.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +118,7 @@
       <workItem from="1584291988226" duration="417000" />
       <workItem from="1584350110594" duration="340000" />
       <workItem from="1584380763479" duration="3000" />
-      <workItem from="1584520905413" duration="1010000" />
+      <workItem from="1584520905413" duration="2855000" />
     </task>
     <servers />
   </component>

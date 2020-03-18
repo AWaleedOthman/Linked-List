@@ -22,13 +22,13 @@ public class PolynomialSolver implements IPolynomialSolver {
 
     private int[][] toArray (SLinkedList<Term> polynomial) {
         int size = polynomial.size();
-        int[][] polyArray = new int[2][size];
+        int[][] polyArray = new int[size][2];
         Term tempTerm;
         polynomial.resetNext();
         for (int i = 0; i < size; i++) {
             tempTerm = polynomial.getNext();
-            polyArray[0][i] = tempTerm.coefficient;
-            polyArray[1][i] = tempTerm.exponent;
+            polyArray[i][0] = tempTerm.coefficient;
+            polyArray[i][1] = tempTerm.exponent;
         }
         return polyArray;
     }
@@ -69,7 +69,7 @@ public class PolynomialSolver implements IPolynomialSolver {
 
         int[][] numbers;
 
-        DLinkedList<Term> ll = new DLinkedList<Term>(Term.class); //felt like this is better than looping using the scanner
+        DLinkedList<Term> ll = new DLinkedList<>(Term.class); //felt like this is better than looping using the scanner
         String input = s.replaceAll("[^\\d+.-]", " ");
         try(Scanner sc = new Scanner(input)){
 	        try {
@@ -99,7 +99,7 @@ public class PolynomialSolver implements IPolynomialSolver {
 	                		added = true;
 	                		break;
 	                	}
-	                	else if(currentTerm.exponent == pastTerm.exponent)//repeated exp
+	                	else if(currentTerm.exponent.equals(pastTerm.exponent))//repeated exp
 	                	{
 	                		pastTerm.coefficient += currentTerm.coefficient;
 	                		if(pastTerm.coefficient == 0)
@@ -119,11 +119,11 @@ public class PolynomialSolver implements IPolynomialSolver {
 	        if(ll.size() == 0)
 	        	return new int[][]{{0},{0}}; //zero polynomial
 
-            numbers = new int[2][ll.size()];
+            numbers = new int[ll.size()][2];
             int i = 0;
             for(Term term : ll) {
-            	numbers[0][i] = term.coefficient;
-            	numbers[1][i] = term.exponent;
+            	numbers[i][0] = term.coefficient;
+            	numbers[i][1] = term.exponent;
             	i++;
             }
 	        return numbers;
@@ -134,8 +134,8 @@ public class PolynomialSolver implements IPolynomialSolver {
     public void setPolynomial(char poly, int[][] terms) {
         clearPolynomial(poly);
         int index = getIndex(poly);
-        for(int i = 0; i < terms[0].length; i++) {
-        	polynomials[index].add(new Term(terms[0][i], terms[1][i]));
+        for (int[] term : terms) {
+            polynomials[index].add(new Term(term[0], term[1]));
         }
     }
 
@@ -200,9 +200,7 @@ public class PolynomialSolver implements IPolynomialSolver {
     //@SuppressWarnings("DuplicatedCode") my compiler doesn't like it i have no idea why
     @Override
     /*
-    TODO
     must check that both polynomials not empty in main
-    will probably need to create another method for that purpose
      */
     public int[][] add(char poly1, char poly2) {
         SLinkedList<Term> x = polynomials[getIndex(poly1)];
