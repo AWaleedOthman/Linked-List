@@ -15,11 +15,11 @@ public class PolynomialSolver implements IPolynomialSolver {
             this.exponent = exponent;
         }
     }
-
+	
 	@SuppressWarnings("unchecked")
     private SLinkedList<Term>[] polynomials = new SLinkedList[4];
 
-
+    
     private int[][] toArray (SLinkedList<Term> polynomial) {
         int size = polynomial.size();
         int[][] polyArray = new int[size][2];
@@ -69,24 +69,24 @@ public class PolynomialSolver implements IPolynomialSolver {
 
         int[][] numbers;
 
-        DLinkedList<Term> ll = new DLinkedList<>(Term.class); //felt like this is better than looping using the scanner
+        DLinkedList<Term> ll = new DLinkedList<Term>(Term.class); //felt like this is better than looping using the scanner
         String input = s.replaceAll("[^\\d+.-]", " ");
-        try(Scanner sc = new Scanner(input)){
+        try(Scanner sc = new Scanner(input)){ 
 	        try {
-
+	        	
 	        	if(!sc.hasNext())//no terms entered at all
 	        	{
 	        		return null;
 	        	}
-
-
+	        	
+	        	
 	        	Term currentTerm;
 	        	Term pastTerm;
 	        	int i;
 	        	boolean added;
 	        	while (sc.hasNext()) {
 	            	currentTerm = new Term(Math.round(sc.nextFloat()),Math.round(sc.nextFloat()));
-
+	            	
 	            	if(currentTerm.coefficient == 0)//has to be here, in order to read numbers in pairs! forget this comment I just did something stupid
 	            		continue;
 	            	i = ll.size();
@@ -115,11 +115,11 @@ public class PolynomialSolver implements IPolynomialSolver {
 	        } catch (Exception e) {
 	            throw new RuntimeException("Invalid Input"); //exception originally thrown by Scanner.nextFloat
 	        }
-
+	        
 	        if(ll.size() == 0)
 	        	return new int[][]{{0},{0}}; //zero polynomial
-
-            numbers = new int[ll.size()][2];
+	        
+        	numbers = new int[ll.size()][2];
             int i = 0;
             for(Term term : ll) {
             	numbers[i][0] = term.coefficient;
@@ -215,7 +215,7 @@ public class PolynomialSolver implements IPolynomialSolver {
 		polynomials[getIndex('R')] = res;
         return toArray(res);
     }
-
+    
     private SLinkedList<Term> add(SLinkedList<Term> x, SLinkedList<Term> y, int skip) {
     	Term tempx, tempy;
     	SLinkedList<Term> res = new SLinkedList<>();
@@ -234,11 +234,11 @@ public class PolynomialSolver implements IPolynomialSolver {
                 if (tempx.coefficient + tempy.coefficient == 0) continue;
                 res.add(new Term(tempx.coefficient + tempy.coefficient, tempx.exponent));
             }
-        }
+        } 
         while (x.hasNext()) {
             tempx = x.getNext();
             res.add(new Term(tempx.coefficient, tempx.exponent));
-        }
+        } 
         while (y.hasNext()) {
             tempy = y.getNext();
             res.add(new Term(tempy.coefficient, tempy.exponent));
@@ -252,7 +252,11 @@ public class PolynomialSolver implements IPolynomialSolver {
     @Override
     public int[][] subtract(char poly1, char poly2) {
         SLinkedList<Term> x = polynomials[getIndex(poly1)];
-        SLinkedList<Term> y = polynomials[getIndex(poly2)];
+        SLinkedList<Term> y;
+        if(poly1 == poly2) //if both are the same, polynomial, then x and y reference the same object, so when x.hasNext() is false, so is y, although we have not yet dully iterated through y!
+        	y = x.sublist(0, x.size()-1);
+        else
+        	y = polynomials[getIndex(poly2)];
         SLinkedList<Term> res = polynomials[getIndex('R')];
         x.resetNext(); y.resetNext(); res.clear();
         Term tempx, tempy;
@@ -290,7 +294,7 @@ public class PolynomialSolver implements IPolynomialSolver {
         	y = x.sublist(0, x.size()-1);
         else
         	y = polynomials[getIndex(poly2)];
-
+    	
         if(x.size() < y.size()) {//make y the shorter one
         	temp = x;
         	x = y;
@@ -305,10 +309,10 @@ public class PolynomialSolver implements IPolynomialSolver {
 			x.resetNext();
 			term2 = y.next();
 			for(;x.hasNext();x.getNext()) {
-
+				
 				term1 = x.next();
 				tempTerm = new Term(term1.coefficient*term2.coefficient, term1.exponent+term2.exponent);
-
+				
 				partialResult.add(tempTerm);
 			}
 			res.resetNext();
