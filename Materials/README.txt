@@ -1,0 +1,2 @@
+JAR file doesn't want to run on double click. To solve this problem I've created the batch file to run it with a double click.
+Otherwise, we could follow the instructions here https://stackoverflow.com/questions/394616/running-jar-file-on-windows but I'll try that later :p
