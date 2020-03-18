@@ -1,10 +1,13 @@
 package eg.edu.alexu.csd.datastructure.linkedList.Classes;
 
+import java.util.Iterator;
+import java.util.Scanner;
+
 import eg.edu.alexu.csd.datastructure.linkedList.Interfaces.IPolynomialSolver;
 
 public class PolynomialSolver implements IPolynomialSolver {
 
-    private static class Term {
+	private static class Term {
         private Integer coefficient, exponent;
 
         public Term(int coefficient, int exponent) {
@@ -13,19 +16,19 @@ public class PolynomialSolver implements IPolynomialSolver {
         }
     }
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
     private SLinkedList<Term>[] polynomials = new SLinkedList[4];
 
 
     private int[][] toArray (SLinkedList<Term> polynomial) {
         int size = polynomial.size();
-        int[][] polyArray = new int[size][2];
+        int[][] polyArray = new int[2][size];
         Term tempTerm;
         polynomial.resetNext();
         for (int i = 0; i < size; i++) {
             tempTerm = polynomial.getNext();
-            polyArray[i][0] = tempTerm.coefficient;
-            polyArray[i][1] = tempTerm.exponent;
+            polyArray[0][i] = tempTerm.coefficient;
+            polyArray[1][i] = tempTerm.exponent;
         }
         return polyArray;
     }
@@ -62,49 +65,84 @@ public class PolynomialSolver implements IPolynomialSolver {
         return i;
     }
 
-    /*
-    TODO
-    needs to be changed to sort while taking input from user
-    also need to handle case if user inputs two terms with same exponent while sorting
-    will probably use SLinkedList to take input and sort then change to int[][]
-     */
-    private void sort(int[][] terms) { //bubble sort
-        int n = terms[0].length;
-        int i, j, temp;
-        boolean swapped;
-        for (i = 0; i < n - 1; i++) {
-            swapped = false;
-            for (j = 0; j < n - i - 1; j++) {
-                if (terms[1][j] < terms[1][j + 1]) {
-                    temp = terms[1][j];
-                    terms[1][j] = terms[1][j + 1];
-                    terms[1][j + 1] = temp;
-                    temp = terms[0][j];
-                    terms[0][j] = terms[0][j + 1];
-                    terms[0][j + 1] = temp;
-                    swapped = true;
-                }
-            }
+    int[][] getNumbers (String s) {
 
-            if (!swapped)
-                break;
+        int[][] numbers;
+
+        DLinkedList<Term> ll = new DLinkedList<Term>(Term.class); //felt like this is better than looping using the scanner
+        String input = s.replaceAll("[^\\d+.-]", " ");
+        try(Scanner sc = new Scanner(input)){
+	        try {
+
+	        	if(!sc.hasNext())//no terms entered at all
+	        	{
+	        		return null;
+	        	}
+
+
+	        	Term currentTerm;
+	        	Term pastTerm;
+	        	int i;
+	        	boolean added;
+	        	while (sc.hasNext()) {
+	            	currentTerm = new Term(Math.round(sc.nextFloat()),Math.round(sc.nextFloat()));
+
+	            	if(currentTerm.coefficient == 0)//has to be here, in order to read numbers in pairs! forget this comment I just did something stupid
+	            		continue;
+	            	i = ll.size();
+	            	added = false;
+	                for(Iterator<Term> itr = ll.iterator(1); itr.hasNext(); i--) {
+	                	pastTerm = itr.next();
+	                	if(currentTerm.exponent < pastTerm.exponent)//insert here
+	                	{
+	                		ll.add(i,currentTerm);
+	                		added = true;
+	                		break;
+	                	}
+	                	else if(currentTerm.exponent == pastTerm.exponent)//repeated exp
+	                	{
+	                		pastTerm.coefficient += currentTerm.coefficient;
+	                		if(pastTerm.coefficient == 0)
+	                			itr.remove();
+	                		added = true;
+	                		break;
+	                	}
+	                }
+	                if(!added) {//loop ended normally
+	                	ll.add(0,currentTerm);
+	                }
+	            }
+	        } catch (Exception e) {
+	            throw new RuntimeException("Invalid Input"); //exception originally thrown by Scanner.nextFloat
+	        }
+
+	        if(ll.size() == 0)
+	        	return new int[][]{{0},{0}}; //zero polynomial
+
+            numbers = new int[2][ll.size()];
+            int i = 0;
+            for(Term term : ll) {
+            	numbers[0][i] = term.coefficient;
+            	numbers[1][i] = term.exponent;
+            	i++;
+            }
+	        return numbers;
         }
     }
 
     @Override
     public void setPolynomial(char poly, int[][] terms) {
         clearPolynomial(poly);
-        sort(terms);
-        for (int[] term : terms) {
-            if (term[0] != 0)
-                polynomials[getIndex(poly)].add(new Term(term[0]/*coefficient*/, term[1]/*exponent*/));
+        int index = getIndex(poly);
+        for(int i = 0; i < terms[0].length; i++) {
+        	polynomials[index].add(new Term(terms[0][i], terms[1][i]));
         }
     }
 
     @Override
     public String print(char poly) {
         SLinkedList<Term> tempPoly = polynomials[getIndex(poly)];
-        if (tempPoly.size() == 0) return "0"; //why is this null? this should be zero because if I subtract 2 equal polynomials, it should print 0
+        if (tempPoly.size() == 0) return null; //back to null because now if there is a zero sized polynomial then ti has never been set
         Term tempTerm = tempPoly.get(0);
         Integer tempCo = tempTerm.coefficient; //because it is used A LOT
         String sExponent = tempTerm.exponent == 0? "" : (tempTerm.exponent == 1? "x" :
@@ -136,8 +174,9 @@ public class PolynomialSolver implements IPolynomialSolver {
             }
             //zero coefficient : continue;
         }
-
-        return expression.toString();
+        String returnVal = expression.toString();
+        if(returnVal.isEmpty())return "0"; //law b3d koll da fady akeed zero
+        return returnVal;
     }
 
     @Override
@@ -160,27 +199,32 @@ public class PolynomialSolver implements IPolynomialSolver {
 
     //@SuppressWarnings("DuplicatedCode") my compiler doesn't like it i have no idea why
     @Override
+    /*
+    TODO
+    must check that both polynomials not empty in main
+    will probably need to create another method for that purpose
+     */
     public int[][] add(char poly1, char poly2) {
         SLinkedList<Term> x = polynomials[getIndex(poly1)];
         SLinkedList<Term> y;
         if(poly1 == poly2) //if both are the same, polynomial, then x and y reference the same object, so when x.hasNext() is false, so is y, although we have not yet dully iterated through y!
-            y = x.sublist(0, x.size()-1);
+        	y = x.sublist(0, x.size()-1);
         else
-            y = polynomials[getIndex(poly2)];
+        	y = polynomials[getIndex(poly2)];
         SLinkedList<Term> res;
         x.resetNext(); y.resetNext();
         res = add(x,y,0);
-        polynomials[getIndex('R')] = res;
+		polynomials[getIndex('R')] = res;
         return toArray(res);
     }
 
     private SLinkedList<Term> add(SLinkedList<Term> x, SLinkedList<Term> y, int skip) {
-        Term tempx, tempy;
-        SLinkedList<Term> res = new SLinkedList<>();
-        for(int i=0; i<skip; i++) {//skipping unnecessary terms, thanks for the 'resetNext()' feature, Waleed :D!
-            res.add(x.getNext());
-        }
-        while (x.hasNext() && y.hasNext()) {
+    	Term tempx, tempy;
+    	SLinkedList<Term> res = new SLinkedList<>();
+    	for(int i=0; i<skip; i++) {//skipping unnecessary terms, thanks for the 'resetNext()' feature, Waleed :D!
+			res.add(x.getNext());
+		}
+    	while (x.hasNext() && y.hasNext()) {
             if (x.next().exponent > y.next().exponent) {
                 tempx = x.getNext();
                 res.add(new Term(tempx.coefficient, tempx.exponent));
@@ -201,6 +245,8 @@ public class PolynomialSolver implements IPolynomialSolver {
             tempy = y.getNext();
             res.add(new Term(tempy.coefficient, tempy.exponent));
         }
+        if(res.size() == 0)//if we added x+1 to -x-1
+        	res.add(new Term(0,0));
         return res;
     }
 
@@ -232,47 +278,49 @@ public class PolynomialSolver implements IPolynomialSolver {
             tempy = y.getNext();
             res.add(new Term(-1*tempy.coefficient, tempy.exponent));
         }
+        if(res.size() == 0)
+        	res.add(new Term(0,0));
         return toArray(res);
     }
 
     @Override
-    public int[][] multiply(char poly1, char poly2) {
-        SLinkedList<Term> temp;
-        SLinkedList<Term> x = polynomials[getIndex(poly1)];
-        SLinkedList<Term> y;
-        if(poly1 == poly2)
-            y = x.sublist(0, x.size()-1);
+	public int[][] multiply(char poly1, char poly2) {
+    	SLinkedList<Term> temp;
+    	SLinkedList<Term> x = polynomials[getIndex(poly1)];
+    	SLinkedList<Term> y;
+    	if(poly1 == poly2)
+        	y = x.sublist(0, x.size()-1);
         else
-            y = polynomials[getIndex(poly2)];
+        	y = polynomials[getIndex(poly2)];
 
         if(x.size() < y.size()) {//make y the shorter one
-            temp = x;
-            x = y;
-            y = temp;
+        	temp = x;
+        	x = y;
+        	y = temp;
         }
         SLinkedList<Term> res = new SLinkedList<>();
-        SLinkedList<Term> partialResult = new SLinkedList<>();
-        Term tempTerm, term1, term2;
-        y.resetNext();
-        int skippedTerms = 0;
-        for(;y.hasNext();y.getNext(),skippedTerms++) {
-            x.resetNext();
-            term2 = y.next();
-            for(;x.hasNext();x.getNext()) {
+		SLinkedList<Term> partialResult = new SLinkedList<>();
+		Term tempTerm, term1, term2;
+		y.resetNext();
+		int skippedTerms = 0;
+		for(;y.hasNext();y.getNext(),skippedTerms++) {
+			x.resetNext();
+			term2 = y.next();
+			for(;x.hasNext();x.getNext()) {
 
-                term1 = x.next();
-                tempTerm = new Term(term1.coefficient*term2.coefficient, term1.exponent+term2.exponent);
+				term1 = x.next();
+				tempTerm = new Term(term1.coefficient*term2.coefficient, term1.exponent+term2.exponent);
 
-                partialResult.add(tempTerm);
-            }
-            res.resetNext();
-            partialResult.resetNext();
-            res = add(res, partialResult,skippedTerms);
-            partialResult.clear();
-        }
-        polynomials[getIndex('r')] = res;
-        return toArray(res);
-    }
+				partialResult.add(tempTerm);
+			}
+			res.resetNext();
+			partialResult.resetNext();
+			res = add(res, partialResult,skippedTerms);
+			partialResult.clear();
+		}
+		polynomials[getIndex('r')] = res;
+		return toArray(res);
+	}
 
     public boolean isEmpty(char poly) {
         return polynomials[getIndex(poly)].isEmpty();
