@@ -150,7 +150,7 @@ public class PolynomialSolver implements IPolynomialSolver {
         Integer coefficient = tempTerm.coefficient;
         if (coefficient == 0) return "0"; //zero polynomial
         else if (coefficient < 0) expression.append("-");
-        if (coefficient != 1 && coefficient != -1) { expression.append(coefficient); flag = true;}
+        if (coefficient != 1 && coefficient != -1) { expression.append(Math.abs(coefficient)); flag = true;}
         Integer exponent = tempTerm.exponent;
         if (exponent == 0 && !flag) expression.append(1);
         else if (exponent != 0) expression.append("x^(").append(exponent).append(")");
@@ -160,7 +160,7 @@ public class PolynomialSolver implements IPolynomialSolver {
             coefficient = tempTerm.coefficient;
             if (coefficient > 0) expression.append(" + ");
             else expression.append(" - "); //because no zero coefficients
-            if (coefficient != 1 && coefficient != -1) { expression.append(coefficient); flag = true;}
+            if (coefficient != 1 && coefficient != -1) { expression.append(Math.abs(coefficient)); flag = true;}
             exponent = tempTerm.exponent;
             if (exponent == 0 && !flag) {expression.append(1);}
             else if (exponent != 0) expression.append("x^(").append(exponent).append(")");
