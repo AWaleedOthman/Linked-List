@@ -117,7 +117,7 @@ public class PolynomialSolver implements IPolynomialSolver {
 	        }
 	        
 	        if(ll.size() == 0)
-	        	return new int[][]{{0},{0}}; //zero polynomial
+	        	return new int[][]{{0,0}}; //zero polynomial
 	        
         	numbers = new int[ll.size()][2];
             int i = 0;
