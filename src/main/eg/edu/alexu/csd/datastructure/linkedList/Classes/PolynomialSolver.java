@@ -1,9 +1,9 @@
 package eg.edu.alexu.csd.datastructure.linkedList.Classes;
 
+import eg.edu.alexu.csd.datastructure.linkedList.Interfaces.IPolynomialSolver;
+
 import java.util.Iterator;
 import java.util.Scanner;
-
-import eg.edu.alexu.csd.datastructure.linkedList.Interfaces.IPolynomialSolver;
 
 public class PolynomialSolver implements IPolynomialSolver {
 
@@ -69,7 +69,7 @@ public class PolynomialSolver implements IPolynomialSolver {
 
         int[][] numbers;
 
-        DLinkedList<Term> ll = new DLinkedList<Term>(Term.class); //felt like this is better than looping using the scanner
+        DLinkedList<Term> ll = new DLinkedList<>(Term.class); //felt like this is better than looping using the scanner
         String input = s.replaceAll("[^\\d+.-]", " ");
         try(Scanner sc = new Scanner(input)){ 
 	        try {
@@ -141,42 +141,32 @@ public class PolynomialSolver implements IPolynomialSolver {
 
     @Override
     public String print(char poly) {
-        SLinkedList<Term> tempPoly = polynomials[getIndex(poly)];
-        if (tempPoly.size() == 0) return null; //back to null because now if there is a zero sized polynomial then ti has never been set
-        Term tempTerm = tempPoly.get(0);
-        Integer tempCo = tempTerm.coefficient; //because it is used A LOT
-        String sExponent = tempTerm.exponent == 0? "" : (tempTerm.exponent == 1? "x" :
-                ("x^(" + tempTerm.exponent + ")"));
-        StringBuilder expression;
-        if (tempCo > 0) { //+ve coefficient
-            expression = new StringBuilder((tempCo == 1 ? "" : tempCo) + sExponent);
-        } else if (tempCo < 0) { //-ve coefficient
-            expression = new StringBuilder((tempCo == -1 ? " - " : tempCo) + sExponent);
-        } else { //coefficient = zero
-            expression = new StringBuilder();
+        SLinkedList<Term> myPoly = polynomials[getIndex(poly)];
+        if (myPoly.size() == 0) return null; //back to null because now if there is a zero sized polynomial then ti has never been set
+        StringBuilder expression = new StringBuilder();
+        boolean flag = false; //did we print a coefficient?
+        /*print first term*/
+        Term tempTerm = myPoly.get(0);
+        Integer coefficient = tempTerm.coefficient;
+        if (coefficient == 0) return "0"; //zero polynomial
+        else if (coefficient < 0) expression.append("-");
+        if (coefficient != 1 && coefficient != -1) { expression.append(coefficient); flag = true;}
+        Integer exponent = tempTerm.exponent;
+        if (exponent == 0 && !flag) expression.append(1);
+        else if (exponent != 0) expression.append("x^(").append(exponent).append(")");
+        while (myPoly.hasNext()) {
+            flag = false;
+            tempTerm = myPoly.getNext();
+            coefficient = tempTerm.coefficient;
+            if (coefficient > 0) expression.append(" + ");
+            else expression.append(" - "); //because no zero coefficients
+            if (coefficient != 1 && coefficient != -1) { expression.append(coefficient); flag = true;}
+            exponent = tempTerm.exponent;
+            if (exponent == 0 && !flag) {expression.append(1);}
+            else if (exponent != 0) expression.append("x^(").append(exponent).append(")");
         }
 
-        for (int i = 1; i < tempPoly.size(); i++) {
-
-            tempTerm = tempPoly.getNext();
-            tempCo = tempTerm.coefficient;
-            sExponent = tempTerm.exponent == 0? "" : (tempTerm.exponent == 1? "x" :
-                    ("x^(" + tempTerm.exponent + ")"));
-
-            if (tempCo > 0) { //+ve coefficient
-                expression.append(" + ");
-                expression.append(sExponent.equals("")? tempCo:(tempCo == 1 ? "" : tempCo)).append(sExponent);
-
-            } else if (tempCo < 0) { //-ve coefficient
-                expression.append(" - ");
-                expression.append(sExponent.equals("")? -1*tempCo:(tempCo == -1 ? "" : -1 * tempCo)).append(sExponent);
-
-            }
-            //zero coefficient : continue;
-        }
-        String returnVal = expression.toString();
-        if(returnVal.isEmpty())return "0"; //law b3d koll da fady akeed zero
-        return returnVal;
+        return expression.toString();
     }
 
     @Override
