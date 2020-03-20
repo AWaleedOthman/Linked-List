@@ -153,7 +153,9 @@ public class PolynomialSolver implements IPolynomialSolver {
         if (coefficient != 1 && coefficient != -1) { expression.append(Math.abs(coefficient)); flag = true;}
         Integer exponent = tempTerm.exponent;
         if (exponent == 0 && !flag) expression.append(1);
+        else if (exponent == 1) expression.append("x");
         else if (exponent != 0) expression.append("x^(").append(exponent).append(")");
+        /*rest of the terms*/
         while (myPoly.hasNext()) {
             flag = false;
             tempTerm = myPoly.getNext();
@@ -162,7 +164,8 @@ public class PolynomialSolver implements IPolynomialSolver {
             else expression.append(" - "); //because no zero coefficients
             if (coefficient != 1 && coefficient != -1) { expression.append(Math.abs(coefficient)); flag = true;}
             exponent = tempTerm.exponent;
-            if (exponent == 0 && !flag) {expression.append(1);}
+            if (exponent == 0 && !flag) expression.append(1);
+            else if (exponent == 1) expression.append("x");
             else if (exponent != 0) expression.append("x^(").append(exponent).append(")");
         }
 
