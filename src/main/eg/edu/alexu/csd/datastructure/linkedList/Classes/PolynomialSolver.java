@@ -250,7 +250,7 @@ public class PolynomialSolver implements IPolynomialSolver {
         	y = x.sublist(0, x.size()-1);
         else
         	y = polynomials[getIndex(poly2)];
-        SLinkedList<Term> res = polynomials[getIndex('R')];
+        SLinkedList<Term> res = new SLinkedList<Term>();
         x.resetNext(); y.resetNext(); res.clear();
         Term tempx, tempy;
         do {
@@ -275,6 +275,7 @@ public class PolynomialSolver implements IPolynomialSolver {
         }
         if(res.size() == 0)
         	res.add(new Term(0,0));
+        polynomials[getIndex('r')] = res;
         return toArray(res);
     }
 

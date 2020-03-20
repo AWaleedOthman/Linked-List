@@ -10,8 +10,8 @@ public class UIApplication {
         PolynomialSolver ps = new PolynomialSolver();
         try(Scanner sc = new Scanner(System.in)){
 	        String chooseOne = "Insert the variable name: A, B, C or R:";
-	        String chooseFirst = "Insert first operand variable name: A, B or C";
-	        String chooseSecond = "Insert second operand variable name: A, B or C";
+	        String chooseFirst = "Insert first operand variable name: A, B, C or R";
+	        String chooseSecond = "Insert second operand variable name: A, B, C or R";
 	        int input = menu(sc);
 	        char poly, poly2;
 	        while (input != 8) { //exit
