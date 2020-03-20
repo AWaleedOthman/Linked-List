@@ -104,7 +104,7 @@ public class UIApplication {
                         }
 	                    float point;
 	                    try {
-	                        System.out.println("Please enter the point at which you want to evaluate " + poly);
+	                        System.out.println("Please enter the point at which you want to evaluate " + Character.toUpperCase(poly));
 	                        point = sc.nextFloat();
 	                        sc.nextLine();
 	                    } catch (Exception e) {
